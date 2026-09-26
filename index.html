@@ -86,28 +86,47 @@
   }
 
   /* ---------- Nav ---------- */
-  header{
-    position: sticky;
-    top: env(safe-area-inset-top, 0px);
-    z-index: 50;
-    background: rgba(12,10,18,0.82);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
-    transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease, top 0.4s ease;
-  }
-  header.scrolled{
-    top: calc(14px + env(safe-area-inset-top, 0px));
-    background: transparent;
-    border-bottom-color: transparent;
-    header.scrolled .nav {
+header{
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  background: rgba(12,10,18,0.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  transition: background 0.4s ease, border-color 0.4s ease, top 0.4s ease;
+}
+
+header.scrolled{
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none; /* Disables full-width blur */
+}
+
+.nav{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 32px;
+  border-radius: 0px;
+  box-shadow: none;
+  transition: max-width 0.4s ease, height 0.4s ease, margin-top 0.4s ease,
+              padding 0.4s ease, border-radius 0.4s ease,
+              background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+header.scrolled .nav{
   max-width: 640px;
   height: 54px;
   padding: 0 26px;
   border-radius: 999px;
-  background: rgba(21, 17, 30, 0.9);
-  backdrop-filter: blur(12px);
+  background: rgba(21,17,30,0.9);
+  backdrop-filter: blur(12px); /* Blurs ONLY inside the floating pill */
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--line-strong);
+  box-shadow: 0 10px 34px rgba(0,0,0,0.45), 0 0 0 1px var(--line-strong);
 }
   }
   .nav{
