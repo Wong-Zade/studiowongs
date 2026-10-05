@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: dark;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wongs Digital Arts — Graphic Design Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Lexend:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0c0a12;
+    --surface: #15111e;
+    --surface-2: #1b1628;
+    --line: rgba(243,240,248,0.12);
+    --line-strong: rgba(243,240,248,0.22);
+    --text: #f3f0f8;
+    --text-dim: #9c93ae;
+    --text-faint: #6a6280;
+    --purple: #9169f6;
+    --purple-deep: #4c2f87;
+    --purple-glow: #c3adff;
+    --white: #f3f0f8;
+
+    --font-display: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-body: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --wrap: 1180px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before{
+    content:"";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(700px 500px at 85% -8%, rgba(145,105,246,0.16), transparent 60%),
+      radial-gradient(900px 600px at -10% 40%, rgba(76,47,135,0.14), transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  img, svg{ max-width:100%; display:block; }
+
+  a{ color: inherit; text-decoration: none; }
+
+  .wrap{
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  section{ position: relative; z-index: 1; }
+
+  h1,h2,h3{
+    font-family: var(--font-display);
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  p{ margin: 0; }
+
+  ::selection{ background: var(--purple-deep); color: var(--white); }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline: 2px solid var(--purple-glow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  /* ---------- Nav ---------- */
+header{
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  background: rgba(12,10,18,0.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  transition: background 0.4s ease, border-color 0.4s ease, top 0.4s ease;
+}
+
+header.scrolled{
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none; /* Disables full-width blur */
+}
+
+.nav{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 32px;
+  border-radius: 0px;
+  box-shadow: none;
+  transition: max-width 0.4s ease, height 0.4s ease, margin-top 0.4s ease,
+              padding 0.4s ease, border-radius 0.4s ease,
+              background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+header.scrolled .nav{
+  max-width: 640px;
+  height: 54px;
+  padding: 0 26px;
+  border-radius: 999px;
+  background: rgba(21,17,30,0.9);
+  backdrop-filter: blur(12px); /* Blurs ONLY inside the floating pill */
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 34px rgba(0,0,0,0.45), 0 0 0 1px rgba(145,105,246,0.3);
+}
+  .nav-mark{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    transition: font-size 0.4s ease;
+  }
+  header.scrolled .nav-mark{ font-size: 1rem; }
+  .nav-mark .logo-img{ height: 32px; width:auto; display:none; transition: height 0.4s ease; }
+  header.scrolled .nav-mark .logo-img{ height: 24px; }
+  .foot-mark{ display:flex; align-items:center; }
+  .foot-mark .logo-img{ height: 24px; width:auto; display:none; opacity: 0.85; }
+  .nav-links{
+    display:flex;
+    gap: 36px;
+    list-style:none;
+    margin:0; padding:0;
+    font-size: 0.94rem;
+    color: var(--text-dim);
+    transition: gap 0.4s ease, font-size 0.4s ease;
+  }
+  header.scrolled .nav-links{ gap: 22px; font-size: 0.84rem; }
+  .nav-links a{ transition: color 0.2s ease; }
+  .nav-links a:hover{ color: var(--white); }
+  .nav-toggle{ display:none; background:none; border:none; color: var(--text); cursor:pointer; padding: 8px; }
+  .nav-toggle svg{ width: 22px; height: 22px; }
+.nav-mobile{ display:none; }
+  /* ---------- Floating action button ---------- */
+  .fab-wrap{
+    position: fixed;
+    right: 24px;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    z-index: 60;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .fab-wrap.fab-hidden{
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+  }
+  .fab-btn{
+    display:inline-flex;
+    align-items:center;
+    background: rgba(145,105,246,0.82);
+    backdrop-filter: blur(6px);
+    color: #0c0a12;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 14px 24px;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .fab-btn:hover{
+    background: rgba(145,105,246,0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.32);
+  }
+  @media (max-width: 560px){
+    .fab-wrap{ right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+    .fab-btn{ padding: 12px 20px; font-size: 0.88rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    header, .nav, .nav-mark, .nav-mark .logo-img, .nav-links, .fab-btn{ transition: none !important; }
+  }
+
+  @media (max-width: 780px){
+    .nav-links{ display:none; }
+    .nav-toggle{ display:block; }
+    .nav-mobile{
+      display:none;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 10px;
+      padding: 10px 18px;
+      border-radius: 16px;
+      background: rgba(21,17,30,0.97);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.5), 0 0 0 1px var(--line-strong);
+    }
+    .nav-mobile.open{ display:flex; }
+    .nav-mobile a{
+      padding: 14px 6px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text-dim);
+      font-size: 0.98rem;
+    }
+    .nav-mobile a:last-child{ border-bottom:none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height: calc(100vh - 100px);
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero h1{
+    font-size: clamp(2.4rem, 5.5vw, 4.6rem);
+    font-weight: 600;
+    line-height: 1.25;
+    max-width: 16ch;
+  }
+  .hero h1 em{
+    font-style: normal;
+    font-weight: 500;
+    color: var(--purple-glow);
+  }
+  .hero-row{
+    margin-top: 36px;
+    display:flex;
+    flex-direction: column;
+    gap: 34px;
+    align-items: flex-start;
+  }
+  .hero-copy{
+    max-width: 40ch;
+    color: var(--text-dim);
+    font-size: 1.02rem;
+    line-height: 1.7;
+  }
+  .hero-btn{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    background: var(--purple);
+    color: #0c0a12;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 13px 30px;
+    border-radius: 999px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .hero-btn:hover{
+    background: var(--purple-glow);
+    transform: translateY(-2px);
+  }
+  .hero-actions{
+    display:flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn{
+    padding: 13px 24px;
+    border-radius: 3px;
+    font-size: 0.95rem;
+    display:inline-block;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-primary{
+    background: var(--purple);
+    color: #0c0a12;
+    font-weight: 600;
+    border: 1px solid var(--purple);
+  }
+  .btn-primary:hover{ background: var(--purple-glow); border-color: var(--purple-glow); }
+  .btn-ghost{
+    border: 1px solid var(--line-strong);
+    color: var(--text);
+  }
+  .btn-ghost:hover{ border-color: var(--purple); }
+
+  /* ---------- Section headings ---------- */
+  .sec-head{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 52px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 24px;
+  }
+  .sec-head h2{
+    font-size: clamp(2rem, 4vw, 2.6rem);
+  }
+  .sec-head .sec-note{
+    color: var(--text-faint);
+    font-size: 0.94rem;
+    max-width: 46ch;
+    text-align: left;
+  }
+  .sec-head-row{
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+
+  section.block{ padding: 96px 0; }
+  section.block + section.block{ border-top: 1px solid var(--line); }
+  #work{ padding: 140px 0; }
+
+  /* ---------- Work / Portfolio ---------- */
+  .work-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  .work-item{
+    background: var(--bg);
+    padding: 30px;
+    min-height: 260px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color 0.25s ease;
+  }
+  .work-item:hover{ border-color: var(--purple); }
+  .work-item .thumb{
+    position:absolute; inset:0;
+    opacity: 0.9;
+    transition: transform 0.5s ease;
+  }
+  .work-item:hover .thumb{ transform: scale(1.06); }
+  .work-item .veil{
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(12,10,18,0.15) 0%, rgba(12,10,18,0.86) 88%);
+  }
+  .work-item .meta{ position: relative; z-index: 2; }
+  .work-item .meta .cat{ color: var(--purple-glow); font-size: 0.82rem; margin-bottom: 6px; }
+  .work-item .meta h3{ font-size: 1.3rem; font-weight: 500; color: var(--white); }
+  img.thumb{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  @media (max-width: 900px){ .work-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .work-grid{ grid-template-columns: 1fr; } }
+  @media (max-width: 640px){
+    .sec-head-row{ flex-direction: column; align-items: flex-start; gap: 10px; }
+    #work{ padding: 90px 0; }
+  }
+
+  /* ---------- Services ---------- */
+  .service-row{
+    display:grid;
+    grid-template-columns: 1.4fr 2.2fr 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .service-row:first-of-type{ border-top: 1px solid var(--line); }
+  .service-row h3{ font-size: 1.35rem; font-weight: 500; }
+  .service-row p{ color: var(--text-dim); font-size: 0.98rem; max-width: 46ch; }
+  .service-row .price{ text-align: right; color: var(--purple-glow); font-family: var(--font-display); font-weight: 300; font-size: 1.2rem; }
+  @media (max-width: 720px){
+    .service-row{ grid-template-columns: 1fr; gap: 8px; }
+    .service-row .price{ text-align:left; }
+  }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-mark{
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.1;
+    color: var(--purple-glow);
+  }
+  .about-copy p{
+    color: var(--text-dim);
+    font-size: 1.05rem;
+    margin-bottom: 18px;
+  }
+  .about-copy p:last-child{ margin-bottom: 0; }
+  .about-copy strong{ color: var(--text); font-weight: 500; }
+  @media (max-width: 820px){
+    .about-grid{ grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ---------- Testimonials ---------- */
+  .quote-list{
+    display:flex;
+    flex-direction: column;
+  }
+  .quote{
+    padding: 40px 0;
+    border-bottom: 1px solid var(--line);
+    display:grid;
+    grid-template-columns: 2.4fr 1fr;
+    gap: 32px;
+  }
+  .quote:first-child{ border-top: 1px solid var(--line); }
+  .quote blockquote{
+    margin:0;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 1.4rem;
+    line-height: 1.45;
+    color: var(--white);
+  }
+  .quote cite{
+    font-style: normal;
+    display:block;
+    margin-top: 18px;
+    color: var(--text-faint);
+    font-size: 0.9rem;
+  }
+  .quote .role{
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    text-align: right;
+    align-self: center;
+  }
+  @media (max-width: 700px){
+    .quote{ grid-template-columns: 1fr; gap: 12px; }
+    .quote .role{ text-align:left; }
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-grid{
+    display:grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+  }
+  .contact-info h2{ font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 20px; }
+  .contact-info p{ color: var(--text-dim); font-size: 1.05rem; max-width: 34ch; margin-bottom: 32px; }
+  .contact-detail{ margin-bottom: 16px; }
+  .contact-detail .label{ color: var(--text-faint); font-size: 0.85rem; margin-bottom: 4px; }
+  .contact-detail .val{ font-size: 1.02rem; }
+  .contact-detail a:hover{ color: var(--purple-glow); }
+
+  form{ display:flex; flex-direction: column; gap: 22px; }
+  .field{ display:flex; flex-direction: column; gap: 8px; }
+  .field label{ font-size: 0.86rem; color: var(--text-dim); }
+  .field input, .field textarea{
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    padding: 13px 14px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    resize: vertical;
+  }
+  .field input:focus, .field textarea:focus{
+    border-color: var(--purple);
+  }
+  .field input::placeholder, .field textarea::placeholder{ color: var(--text-faint); }
+  .row-2{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 820px){
+    .contact-grid{ grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 480px){
+    .row-2{ grid-template-columns: 1fr; }
+  }
+  .submit-btn{
+    align-self: flex-start;
+    background: var(--purple);
+    color: #0c0a12;
+    border: none;
+    font-weight: 600;
+    font-size: 0.98rem;
+    padding: 14px 30px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-family: var(--font-body);
+  }
+  .submit-btn:hover{ background: var(--purple-glow); }
+  .form-note{ font-size: 0.85rem; color: var(--text-faint); }
+  .hp-field{
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* ---------- Contact modal ---------- */
+  .modal-overlay{
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(12,10,18,0.72);
+    backdrop-filter: blur(14px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.open{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-card{
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    max-height: 88vh;
+    overflow-y: auto;
+    background: rgba(21,17,30,0.98);
+    border: 1px solid var(--line-strong);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(243,240,248,0.04);
+    transform: scale(0.94) translateY(14px);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+  }
+  .modal-overlay.open .modal-card{
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  .modal-card h2{ font-size: 1.8rem; margin-bottom: 10px; }
+  .modal-intro{ color: var(--text-dim); font-size: 0.98rem; margin-bottom: 26px; max-width: 42ch; }
+  .modal-close{
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .modal-close:hover{ border-color: var(--purple); color: var(--white); }
+  .modal-alt{ margin-top: 20px; font-size: 0.88rem; color: var(--text-faint); }
+  .modal-alt a{ color: var(--purple-glow); }
+  .modal-alt a:hover{ color: var(--white); }
+  @media (max-width: 560px){
+    .modal-card{ padding: 1.75rem; border-radius: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .modal-overlay, .modal-card{ transition: none !important; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top: 1px solid var(--line);
+    padding: 44px 0;
+  }
+  .foot-row{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    color: var(--text-faint);
+    font-size: 0.88rem;
+  }
+  .foot-mark{ font-family: var(--font-display); font-weight: 600; color: var(--text-dim); }
+  .foot-links{ display:flex; gap: 22px; list-style:none; padding:0; margin:0; }
+  .foot-links a:hover{ color: var(--purple-glow); }
+
+/* V2 FIX: keep the entire hero flush-left with the site's content grid */
+.hero .wrap {
+  width: 100%;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero,
+.hero .wrap,
+.hero h1,
+.hero-row,
+.hero-copy {
+  text-align: left;
+}
+
+.hero h1 {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.hero-row {
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+</style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+  <div class="fab-wrap">
+    <a href="#contact" class="fab-btn">Start a project</a>
+  </div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="nav-mark">
+      <span class="logo-text">Wongs Digital Arts</span>
+      <img src="assets/logo.png" alt="Wongs Digital Arts" class="logo-img"
+           onload="this.style.display='block'; this.previousElementSibling.style.display='none';"
+           onerror="this.remove();">
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#services">View selected work →</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#words">Words</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="wrap nav-mobile" id="navMobile">
+    <a href="#work">Work</a>
+    <a href="#services">View selected work →</a>
+    <a href="#about">About</a>
+    <a href="#words">Words</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>Brands, But<br><em>Better Dressed</em></h1>
+      <div class="hero-row">
+        <p class="hero-copy">WONGS builds brands that look good, move better, and work everywhere.</p>
+        <a href="#services" class="hero-btn">View selected work →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="work">
+    <div class="wrap">
+      <div class="sec-head sec-head-row">
+        <h2>Selected Work</h2>
+        <p class="sec-note">Some of recent Projects we've worked on.</p>
+      </div>
+      <div class="work-grid">
+
+        <a href="work/marrow-coffee.html" class="work-item">
+          <svg class="thumb" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="300" fill="#1b1628"/>
+            <circle cx="300" cy="60" r="140" fill="#4c2f87"/>
+            <circle cx="60" cy="260" r="90" fill="#9169f6" opacity="0.5"/>
+          </svg>
+          <img class="thumb" src="assets/work/marrow-coffee.jpg" alt="Marrow Coffee brand identity" onerror="this.remove();">
+          <div class="veil"></div>
+          <div class="meta"><p class="cat">Brand identity</p><h3>Marrow Coffee</h3></div>
+        </a>
+
+        <a href="work/solstice-records.html" class="work-item">
+          <svg class="thumb" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="300" fill="#15111e"/>
+            <rect x="0" y="0" width="400" height="150" fill="#2a2140"/>
+            <line x1="0" y1="150" x2="400" y2="150" stroke="#9169f6" stroke-width="2"/>
+            <line x1="0" y1="0" x2="400" y2="300" stroke="#c3adff" stroke-width="1" opacity="0.4"/>
+          </svg>
+          <img class="thumb" src="assets/work/solstice-records.jpg" alt="Solstice Records packaging" onerror="this.remove();">
+          <div class="veil"></div>
+          <div class="meta"><p class="cat">Packaging</p><h3>Solstice Records</h3></div>
+        </a>
+
+        <a href="work/nimbus-studio.html" class="work-item">
+          <svg class="thumb" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="300" fill="#1b1628"/>
+            <rect x="40" y="40" width="320" height="220" fill="none" stroke="#9169f6" stroke-width="1.5" opacity="0.6"/>
+            <rect x="80" y="80" width="240" height="140" fill="#4c2f87" opacity="0.6"/>
+          </svg>
+          <img class="thumb" src="assets/work/nimbus-studio.jpg" alt="Nimbus Studio web design" onerror="this.remove();">
+          <div class="veil"></div>
+          <div class="meta"><p class="cat">Web design</p><h3>Nimbus Studio</h3></div>
+        </a>
+
+        <a href="work/ferro-oak.html" class="work-item">
+          <svg class="thumb" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="300" fill="#15111e"/>
+            <polygon points="0,300 200,60 400,300" fill="#2a2140"/>
+            <polygon points="80,300 200,140 320,300" fill="#9169f6" opacity="0.45"/>
+          </svg>
+          <img class="thumb" src="assets/work/ferro-oak.jpg" alt="Ferro &amp; Oak editorial design" onerror="this.remove();">
+          <div class="veil"></div>
+          <div class="meta"><p class="cat">Editorial</p><h3>Ferro &amp; Oak</h3></div>
+        </a>
+
+        <a href="work/little-wolf-bakery.html" class="work-item">
+          <svg class="thumb" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="300" fill="#1b1628"/>
+            <circle cx="120" cy="100" r="60" fill="#c3adff" opacity="0.35"/>
+            <circle cx="220" cy="180" r="90" fill="#4c2f87"/>
+            <circle cx="320" cy="90" r="30" fill="#9169f6"/>
+          </svg>
+          <img class="thumb" src="assets/work/little-wolf-bakery.jpg" alt="Little Wolf Bakery packaging" onerror="this.remove();">
+          <div class="veil"></div>
+          <div class="meta"><p class="cat">Packaging</p><h3>Little Wolf Bakery</h3></div>
+        </a>
+
+        <a href="work/vantage-capital.html" class="work-item">
+          <svg class="thumb" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="300" fill="#15111e"/>
+            <rect x="0" y="0" width="90" height="300" fill="#2a2140"/>
+            <rect x="90" y="0" width="90" height="300" fill="#4c2f87"/>
+            <rect x="180" y="0" width="90" height="300" fill="#9169f6" opacity="0.55"/>
+            <rect x="270" y="0" width="130" height="300" fill="#1b1628"/>
+          </svg>
+          <img class="thumb" src="assets/work/vantage-capital.jpg" alt="Vantage Capital brand system" onerror="this.remove();">
+          <div class="veil"></div>
+          <div class="meta"><p class="cat">Brand system</p><h3>Vantage Capital</h3></div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Services &amp; pricing</h2>
+        <p class="sec-note">Starting rates — every project is scoped after a short call.</p>
+      </div>
+
+      <div class="service-row">
+        <h3>Brand identity</h3>
+        <p>Logo, color system, typography, and a usage guide your team can actually follow.</p>
+        <p class="price">from $1,200</p>
+      </div>
+      <div class="service-row">
+        <h3>Print design</h3>
+        <p>Packaging, posters, editorial layout, and anything meant to be held.</p>
+        <p class="price">from $450</p>
+      </div>
+      <div class="service-row">
+        <h3>Digital design</h3>
+        <p>Web pages, social templates, and presentation decks built to match your brand.</p>
+        <p class="price">from $600</p>
+      </div>
+      <div class="service-row">
+        <h3>Full studio package</h3>
+        <p>End-to-end identity and rollout — for launches that need everything at once.</p>
+        <p class="price">from $2,800</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="wrap about-grid">
+      <p class="about-mark">"Good design is decided before the first pixel — in the brief, the constraints, the questions nobody asked yet."</p>
+      <div class="about-copy">
+        <p><strong>Wongs Digital Arts</strong> is an independent graphic design studio working across branding, print, and digital.</p>
+        <p>Every project starts on paper and finishes by hand — logo systems and layouts are built and refined in Affinity Designer and Affinity Publisher, so the details hold up whether they're on a screen or a printed page.</p>
+        <p>The studio takes on a small number of projects at a time, working closely with each client from first sketch to final files.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="words">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Words from clients</h2>
+        <p class="sec-note">A few notes from recent collaborators.</p>
+      </div>
+      <div class="quote-list">
+        <div class="quote">
+          <blockquote>"The identity system felt like ours from the first draft — not a template with our name dropped in."<cite>Marrow Coffee</cite></blockquote>
+          <p class="role">Founder</p>
+        </div>
+        <div class="quote">
+          <blockquote>"Fast, precise, and unafraid to push back when we asked for the obvious choice."<cite>Solstice Records</cite></blockquote>
+          <p class="role">Label manager</p>
+        </div>
+        <div class="quote">
+          <blockquote>"Every file arrived organized and ready for print — no back-and-forth, no surprises."<cite>Ferro &amp; Oak</cite></blockquote>
+          <p class="role">Editorial director</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span class="foot-mark">
+      <span class="logo-text">Wongs Digital Arts</span>
+      <img src="assets/logo.png" alt="Wongs Digital Arts" class="logo-img"
+           onload="this.style.display='block'; this.previousElementSibling.style.display='none';"
+           onerror="this.remove();">
+    </span>
+    <ul class="foot-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">View selected work →</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <span>&copy; <span id="year"></span> Wongs Digital Arts</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="contactOverlay">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <h2 id="modalTitle">Start a project</h2>
+    <p class="modal-intro">Tell me a little about what you're building. I reply to every note within two business days.</p>
+    <form id="contactForm">
+      <div class="row-2">
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@email.com" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="project">Project type</label>
+        <input type="text" id="project" name="project" placeholder="Brand identity, print, digital…">
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" placeholder="What are you working on?" required></textarea>
+      </div>
+      <div class="hp-field" aria-hidden="true">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+      </div>
+      <button type="submit" class="submit-btn">Send message</button>
+      <p class="form-note" id="formNote">This form is a working layout — connect it to your email or form service to start receiving messages.</p>
+    </form>
+    <p class="modal-alt">Prefer email? <a href="mailto:hello@wongsdigitalarts.com">hello@wongsdigitalarts.com</a></p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var siteHeader = document.querySelector('header');
+  var scrollTicking = false;
+  function updateHeaderState(){
+    if (window.scrollY > 40) {
+      siteHeader.classList.add('scrolled');
+    } else {
+      siteHeader.classList.remove('scrolled');
+    }
+    scrollTicking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!scrollTicking) {
+      window.requestAnimationFrame(updateHeaderState);
+      scrollTicking = true;
+    }
+  }, { passive: true });
+  updateHeaderState();
+
+  var fabWrap = document.querySelector('.fab-wrap');
+  var fabScrollTimer = null;
+  window.addEventListener('scroll', function(){
+    fabWrap.classList.add('fab-hidden');
+    clearTimeout(fabScrollTimer);
+    fabScrollTimer = setTimeout(function(){
+      fabWrap.classList.remove('fab-hidden');
+    }, 400);
+  }, { passive: true });
+
+  var toggle = document.getElementById('navToggle');
+  var mobile = document.getElementById('navMobile');
+  toggle.addEventListener('click', function(){
+    var open = mobile.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mobile.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      mobile.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ---- EmailJS setup ----
+  // Replace these three values with your own from emailjs.com (Account > General,
+  // Email Services, and Email Templates).
+  var EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+  var EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+  var EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  var form = document.getElementById('contactForm');
+  var note = document.getElementById('formNote');
+  var submitBtn = form.querySelector('.submit-btn');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    // Honeypot check — bots fill every field they find, real visitors never see this one.
+    var honeypot = form.querySelector('#company');
+    if (honeypot && honeypot.value.trim() !== '') {
+      form.reset();
+      note.textContent = 'Thanks — your message is on its way. I\'ll reply within two business days.';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    note.textContent = '';
+
+    emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form)
+      .then(function(){
+        note.textContent = 'Thanks — your message is on its way. I\'ll reply within two business days.';
+        form.reset();
+      })
+      .catch(function(error){
+        note.textContent = 'Something went wrong sending that — please try again or email hello@wongsdigitalarts.com directly.';
+        console.error('EmailJS error:', error);
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+      });
+  });
+
+  var overlay = document.getElementById('contactOverlay');
+  var modalClose = document.getElementById('modalClose');
+
+  function openContactModal(){
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeContactModal(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('a[href="#contact"]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      openContactModal();
+    });
+  });
+  modalClose.addEventListener('click', closeContactModal);
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) closeContactModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeContactModal();
+  });
+</script>
+
+</body>
+</html>
